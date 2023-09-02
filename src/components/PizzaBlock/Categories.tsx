@@ -1,14 +1,15 @@
 import { FC } from "react"
 import CategoriesPlaceholder from "./CategoriesPlaceholder"
+import { useAppSelector } from "../../app/hooks"
 
 type CategoriesType = {
-	categories: string[]
 	activeIndex: number
 	setActiceIndex: (index: number) => void
 }
 
-const Categories: FC<CategoriesType> = ({ categories, activeIndex, setActiceIndex }) => {
+const Categories: FC<CategoriesType> = ({ activeIndex, setActiceIndex }) => {
 
+	const categories = useAppSelector(state => state.categories.categories);
 
 	return (
 		<div className="categories">

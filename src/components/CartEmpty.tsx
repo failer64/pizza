@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const CartEmpty: FC = () => {
 	return (
-		<>
+		<div className="container container--cart">
 			<div className="cart cart--empty">
 				<h2>Корзина пустая </h2>
 				<p>
@@ -16,7 +16,7 @@ const CartEmpty: FC = () => {
 					<span>Вернуться назад</span>
 				</Link>
 			</div>
-		</>
+		</div>
 	)
 }
 

@@ -3,6 +3,8 @@ import cart from '/src/assets/images/cart.svg'
 import trash from '/src/assets/images/trash.svg'
 import arrow from '/src/assets/images/grey-arrow-left.svg'
 import { Link, useNavigate } from "react-router-dom";
+import CartItem from "./CartItem";
+
 
 type CartType = {
 	count: number
@@ -22,7 +24,7 @@ const Cart: FC<CartType> = ({ count, totalPrice, setCount, setTotalPrice }) => {
 	}
 
 	return (
-		<>
+		<div className="container container--cart">
 			<div className="cart">
 				<div className="cart__top">
 					<h2 className="content__title">
@@ -35,8 +37,7 @@ const Cart: FC<CartType> = ({ count, totalPrice, setCount, setTotalPrice }) => {
 					</div>
 				</div>
 				<div className="content__items">
-					{/* <% include components/cart-item.ejs %> <% include components/cart-item.ejs %> <%
-              include components/cart-item.ejs %> <% include components/cart-item.ejs %> */}
+					<CartItem />
 				</div>
 				<div className="cart__bottom">
 					<div className="cart__bottom-details">
@@ -54,8 +55,9 @@ const Cart: FC<CartType> = ({ count, totalPrice, setCount, setTotalPrice }) => {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }
+
 
 export default Cart

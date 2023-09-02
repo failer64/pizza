@@ -25,17 +25,18 @@ const App = () => {
 		< >
 			<Header count={count} totalPrice={totalPrice} />
 			<div className="content">
-				<div className="container">
-					<Routes>
-						<Route path="/" element={<Main addToCart={addToCart} onPizzaAdd={onPizzaAdd} />} />
-						<Route path="/cart" element={
-							<Cart count={count} totalPrice={totalPrice}
-								setCount={setCount} setTotalPrice={setTotalPrice} />
-						} />
-						<Route path="/empty" element={<CartEmpty />} />
-						<Route path="*" element={<ErrorPage />} />
-					</Routes>
-				</div>
+				<Routes>
+					<Route path="/" element={
+						<Main addToCart={addToCart} onPizzaAdd={onPizzaAdd} />
+					} />
+					<Route path="/cart" element={
+						<Cart count={count} totalPrice={totalPrice}
+							setCount={setCount}
+							setTotalPrice={setTotalPrice} />
+					} />
+					<Route path="/empty" element={<CartEmpty />} />
+					<Route path="*" element={<ErrorPage />} />
+				</Routes>
 			</div>
 		</>
 	)
