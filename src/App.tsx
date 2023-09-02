@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom'
 import Cart from './components/Cart'
 import Main from './components/Main'
 import CartEmpty from './components/CartEmpty'
+import ErrorPage from './components/404'
 
 
 const App = () => {
@@ -32,7 +33,7 @@ const App = () => {
 								setCount={setCount} setTotalPrice={setTotalPrice} />
 						} />
 						<Route path="/empty" element={<CartEmpty />} />
-						<Route path="*" element={<div> 404</div>} />
+						<Route path="*" element={<ErrorPage />} />
 					</Routes>
 				</div>
 			</div>
