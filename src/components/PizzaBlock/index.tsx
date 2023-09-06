@@ -1,28 +1,24 @@
 import { FC, useState } from "react"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { ItemsType, addItem } from "../../app/cartSlice"
+import { PizzasType } from "../Main"
 
 
-type PizzaType = {
-	title: string
-	price: number
-	types: number[]
-	sizes: number[]
-	imageUrl: string
-	addToCart: () => void
-	setTotalPrice: (price: number) => void
-}
+const Pizza: FC<PizzasType> = ({ title, price, types, sizes, imageUrl }) => {
 
-const Pizza: FC<PizzaType> = ({ title, price, types, sizes, imageUrl, addToCart, setTotalPrice }) => {
+	const pizzasArray = useAppSelector(state => state.cartItems.items)
+	const pizzasCount = pizzasArray.filter(el => el.title === title).length;
 
-
-	const [pizzaCount, setCount] = useState(0);
 	const [activeType, setActiveType] = useState(0);
 	const [activeSize, setActiveSize] = useState(0);
-	const typesNames = ['тонкое', 'традиционное'];
+	const typesNames = useAppSelector(state => state.attributes.types);
 
-	const onClickAdd = () => {
-		setCount(prevState => prevState + 1);
-		addToCart();
-		setTotalPrice(price);
+	let currentPrice = price + activeSize * 50 + activeType * 40;
+
+	const dispatch = useAppDispatch();
+
+	const onClickAdd = (item: ItemsType) => {
+		dispatch(addItem(item));
 	}
 
 	return (
@@ -60,8 +56,10 @@ const Pizza: FC<PizzaType> = ({ title, price, types, sizes, imageUrl, addToCart,
 				</ul>
 			</div>
 			<div className="pizza-block__bottom">
-				<div className="pizza-block__price">от {price} ₽</div>
-				<button onClick={onClickAdd} className="button button--outline button--add">
+				<div className="pizza-block__price">{currentPrice} ₽</div>
+				<button onClick={() => onClickAdd(
+					{ title, price: currentPrice, sizes, imageUrl, activeType, activeSize }
+				)} className="button button--outline button--add">
 					<svg
 						width="12"
 						height="12"
@@ -75,10 +73,10 @@ const Pizza: FC<PizzaType> = ({ title, price, types, sizes, imageUrl, addToCart,
 						/>
 					</svg>
 					<span>Добавить</span>
-					<i>{pizzaCount}</i>
+					<i>{pizzasCount}</i>
 				</button>
 			</div>
-		</div>
+		</div >
 	)
 }
 

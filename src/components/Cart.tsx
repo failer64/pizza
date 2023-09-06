@@ -2,26 +2,37 @@ import { FC } from "react";
 import cart from '/src/assets/images/cart.svg'
 import trash from '/src/assets/images/trash.svg'
 import arrow from '/src/assets/images/grey-arrow-left.svg'
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { ItemsType, clearItems } from "../app/cartSlice";
+import CartEmpty from "./CartEmpty";
 
 
-type CartType = {
-	count: number
-	totalPrice: number
-	setCount: (num: number) => void
-	setTotalPrice: (num: number) => void
-}
+const Cart: FC = () => {
 
-const Cart: FC<CartType> = ({ count, totalPrice, setCount, setTotalPrice }) => {
+	const dispatch = useAppDispatch();
 
-	const navigate = useNavigate();
+	const items = useAppSelector(state => state.cartItems.items);
+
+	//const uniqeItems = items.filter((n, i, a) => i === a.findIndex(m => m === n));
+
+	const uniqeItems = items.reduce((res, cur) =>
+		res.find((find) => JSON.stringify(find) === JSON.stringify(cur))
+			? res
+			: [...res, cur]
+		, [] as ItemsType[])
+
+
+	const totalItems = items.length;
+	const totalPrice = items.reduce((acc, curr) => acc + curr.price, 0);
 
 	const clearCart = () => {
-		setCount(0);
-		setTotalPrice(0);
-		navigate('/empty');
+		dispatch(clearItems()); // Очистка корзины
 	}
+
+	if (!items.length) return <CartEmpty />; // Если пусто то редирект в пустую корзину
+
 
 	return (
 		<div className="container container--cart">
@@ -36,12 +47,16 @@ const Cart: FC<CartType> = ({ count, totalPrice, setCount, setTotalPrice }) => {
 						<span onClick={clearCart}>Очистить корзину</span>
 					</div>
 				</div>
-				<div className="content__items">
-					<CartItem />
+				<div>
+					{
+						uniqeItems.map((item, i) =>
+							<CartItem key={i} item={item} />
+						)
+					}
 				</div>
 				<div className="cart__bottom">
 					<div className="cart__bottom-details">
-						<span> Всего пицц: <b>{count} шт.</b> </span>
+						<span> Всего пицц: <b>{totalItems} шт.</b> </span>
 						<span> Сумма заказа: <b>{totalPrice} ₽</b> </span>
 					</div>
 					<div className="cart__bottom-buttons">
@@ -58,6 +73,5 @@ const Cart: FC<CartType> = ({ count, totalPrice, setCount, setTotalPrice }) => {
 		</div>
 	)
 }
-
 
 export default Cart

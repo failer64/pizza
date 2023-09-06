@@ -1,9 +1,14 @@
 @import "../variables";
 
 .categories {
+	margin: 0px 20px 20px 0px;
 	ul {
 		display: flex;
-		column-gap: 10px;
+		flex-wrap: wrap;
+		margin: 0px 0px -10px 0px;
+		* {
+			margin: 0px 10px 10px 0px;
+		}
 		li {
 			background-color: #f9f9f9;
 			padding: 13px 30px;
@@ -24,6 +29,9 @@
 			&.active {
 				background-color: #282828;
 				color: #fff;
+			}
+			@media (max-width: 767px) {
+				padding: 10px 20px;
 			}
 		}
 	}

@@ -9,7 +9,7 @@ type CategoriesType = {
 
 const Categories: FC<CategoriesType> = ({ activeIndex, setActiceIndex }) => {
 
-	const categories = useAppSelector(state => state.categories.categories);
+	const categories = useAppSelector(state => state.mainPage.categories);
 
 	return (
 		<div className="categories">

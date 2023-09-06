@@ -3,9 +3,9 @@ import Categories from "./PizzaBlock/Categories";
 import Pizza from "./PizzaBlock";
 import Sort from "./Sort";
 import MyLoader from "./PizzaBlock/PizzaBlockPlaceholder";
-import axios from "axios";
-import { fetchCategories } from "../app/categoriesSlice";
-import { useAppDispatch } from "../app/hooks";
+
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { fetchCategories, fetchItems } from "../app/mainPageSlice";
 
 
 export type PizzasType = {
@@ -18,17 +18,15 @@ export type PizzasType = {
 	category: number
 	rating: number
 }
-type MainType = {
-	addToCart: () => void
-	onPizzaAdd: (price: number) => void
-}
 
-const Main: FC<MainType> = ({ addToCart, onPizzaAdd }) => {
+const Main: FC = () => {
 
 	const [activeIndex, setActiceIndex] = useState(0);
 	const [activeSort, setActiveSort] = useState('популярности');
-	const [data, setData] = useState<PizzasType[]>([]);
-	const [error, setError] = useState('');
+
+	const items = useAppSelector(state => state.mainPage.items);
+
+
 
 	const dispatch = useAppDispatch();
 
@@ -37,18 +35,7 @@ const Main: FC<MainType> = ({ addToCart, onPizzaAdd }) => {
 
 	useEffect(() => {
 
-		axios({
-			url: 'https://64ebaeb4e51e1e82c577948d.mockapi.io/items',
-		})
-			.then((res) => {
-				if (res.status === 200) {
-					setData(res.data);
-				}
-			})
-			.catch(res => {
-				setError(res.message);
-			})
-
+		dispatch(fetchItems());
 		dispatch(fetchCategories());
 
 	}, [])
@@ -77,15 +64,13 @@ const Main: FC<MainType> = ({ addToCart, onPizzaAdd }) => {
 			<h2 className="content__title">Все пиццы</h2>
 			<div className="content__items">
 				{
-					data.length && !error
-						? data.filter(item => activeIndex === 0 ? true : item.category === activeIndex)
+					items.length
+						? items.filter(item => activeIndex === 0 ? true : item.category === activeIndex)
 							.sort((a, b) => sortingItems(a, b, activeSort))
 							.map(item =>
-								<Pizza key={item.id} addToCart={addToCart} setTotalPrice={onPizzaAdd} {...item} />
+								<Pizza key={item.id} {...item} />
 							)
-						: error
-							? error
-							: [...new Array(6)].map((_, index) => <MyLoader key={index} />)
+						: [...new Array(6)].map((_, index) => <MyLoader key={index} />)
 				}
 			</div>
 		</div>

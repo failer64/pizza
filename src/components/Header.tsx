@@ -1,15 +1,14 @@
-import { FC, memo } from 'react'
+import { FC } from 'react'
 import pizzaLogo from '../pizza-logo.svg'
 import { Link } from 'react-router-dom'
+import { useAppSelector } from '../app/hooks'
 
 
-type HeaderType = {
-	count: number
-	totalPrice: number
-}
+const Header: FC = () => {
 
-const Header: FC<HeaderType> = memo(({ count, totalPrice }) => {
+	const items = useAppSelector(state => state.cartItems.items);
 
+	const totalPrice = items.reduce((acc, current) => acc + current.price, 0);
 
 	return (
 		<div className="header">
@@ -24,7 +23,7 @@ const Header: FC<HeaderType> = memo(({ count, totalPrice }) => {
 					</div>
 				</Link>
 				<div className="header__cart">
-					<Link to={totalPrice ? '/cart' : '/empty'} className="button button--cart">
+					<Link to="/cart" className="button button--cart">
 						<span>{totalPrice} ₽</span>
 						<div className="button__delimiter"></div>
 						<svg
@@ -56,12 +55,12 @@ const Header: FC<HeaderType> = memo(({ count, totalPrice }) => {
 								strokeLinejoin="round"
 							/>
 						</svg>
-						<span>{count}</span>
+						<span>{items.length}</span>
 					</Link>
 				</div>
 			</div>
 		</div>
 	)
-})
+}
 
 export default Header

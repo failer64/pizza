@@ -1,9 +1,8 @@
 const ErrorPage = () => {
 	return (
-		<>
-			<span>404</span>
-			<h1>Page not found</h1>
-		</>
+		<div className="container container--cart">
+			<h1>Page not found 404</h1>
+		</div>
 	)
 }
 

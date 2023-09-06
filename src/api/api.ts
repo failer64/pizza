@@ -5,7 +5,10 @@ const instance = axios.create({
 });
 
 export const appAPI = {
-	catogories() {
-		return instance.get(`catogories`).then(response => response.data)
+	async getCatogories() {
+		return await instance.get(`catogories`).then(response => response.data)
+	},
+	async getItems() {
+		return await instance.get(`items`).then(response => response.data)
 	},
 }

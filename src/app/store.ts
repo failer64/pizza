@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import mainSlice from './mainSlice'
-import categoriesReducer from './categoriesSlice'
+import cartItems from './cartSlice'
+import mainPageSlice from './mainPageSlice'
+import pizzaAttributesSlice from './pizzaAttributes'
 
 export const store = configureStore({
 	reducer: {
-		categories: categoriesReducer,
-		mainPage: mainSlice
+		cartItems: cartItems,
+		mainPage: mainPageSlice,
+		attributes: pizzaAttributesSlice
 	},
 })
 

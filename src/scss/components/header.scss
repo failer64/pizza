@@ -2,12 +2,15 @@
 
 .header {
 	border-bottom: 1px solid $gray-line;
-	padding: 40px 0;
-
 	.container {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		padding: 40px 0;
+		@media (max-width: 767px) {
+			padding: 20px 0;
+			flex-direction: column;
+		}
 	}
 
 	&__logo {
@@ -27,6 +30,16 @@
 
 		p {
 			color: #7b7b7b;
+		}
+		@media (max-width: 479px) {
+			h1 {
+				font-size: 20px;
+			}
+		}
+	}
+	&__cart {
+		@media (max-width: 767px) {
+			align-self: flex-end;
 		}
 	}
 }
