@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Categories from "./PizzaBlock/Categories";
 import Pizza from "./PizzaBlock";
 import Sort from "./Sort";
 import PizzaBlockPlaceholder from "./PizzaBlock/PizzaBlockPlaceholder";
-
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { fetchCategories, fetchItems } from "../app/mainPageSlice";
 
@@ -21,19 +20,18 @@ export type PizzasType = {
 
 const Main = () => {
 
-	const [activeIndex, setActiceIndex] = useState(0);
-	const [activeSort, setActiveSort] = useState('популярности');
-
-	const sortsArr = ['популярности', 'цене', 'алфавиту'];
-
 	const items = useAppSelector(state => state.mainPage.items);
+	const activeCategory = useAppSelector(state => state.mainPage.activeCategory);
+	const sortsArr = useAppSelector(state => state.mainPage.sortsArr);
+	const activeSorting = useAppSelector(state => state.mainPage.activeSorting);
+	const activeSort = sortsArr[activeSorting];
+
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		dispatch(fetchItems());
 		dispatch(fetchCategories());
 	}, [])
-
 
 	const sortingItems = (a: PizzasType, b: PizzasType, condition: string) => {
 		if (condition === 'популярности') {
@@ -51,15 +49,14 @@ const Main = () => {
 	return (
 		<div className="container">
 			<div className="content__top">
-				<Categories activeIndex={activeIndex}
-					setActiceIndex={setActiceIndex} />
-				<Sort sortsArr={sortsArr} activeSort={activeSort} setActiveSort={setActiveSort} />
+				<Categories activeCategory={activeCategory} />
+				<Sort sortsArr={sortsArr} activeSort={activeSort} />
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			<div className="content__items">
 				{
 					items.length
-						? items.filter(item => activeIndex === 0 ? true : item.category === activeIndex)
+						? items.filter(item => activeCategory === 0 ? true : item.category === activeCategory)
 							.sort((a, b) => sortingItems(a, b, activeSort))
 							.map(item =>
 								<Pizza key={item.id} {...item} />

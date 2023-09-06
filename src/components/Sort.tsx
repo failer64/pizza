@@ -1,18 +1,20 @@
 import { FC, useState } from "react"
+import { useAppDispatch } from "../app/hooks"
+import { changeSorting } from "../app/mainPageSlice"
 
 type SortType = {
 	sortsArr: string[]
 	activeSort: string
-	setActiveSort: (value: string) => void
 }
 
 
-const Sort: FC<SortType> = ({ sortsArr, activeSort, setActiveSort }) => {
+const Sort: FC<SortType> = ({ sortsArr, activeSort }) => {
 
 	const [menuOpen, setMenuOpen] = useState(false);
+	const dispatch = useAppDispatch();
 
-	const onSetActiveSort = (sort: string) => {
-		setActiveSort(sort);
+	const onSetActiveSort = (sort: number) => {
+		dispatch(changeSorting(sort));
 		setMenuOpen(false);
 	}
 
@@ -34,7 +36,6 @@ const Sort: FC<SortType> = ({ sortsArr, activeSort, setActiveSort }) => {
 							fill="#2C2C2C"
 						/>
 					</svg>
-
 				}
 				{
 					menuOpen &&
@@ -62,7 +63,7 @@ const Sort: FC<SortType> = ({ sortsArr, activeSort, setActiveSort }) => {
 								<li
 									key={i}
 									className={item === activeSort ? 'active' : ''}
-									onClick={() => onSetActiveSort(item)}>
+									onClick={() => onSetActiveSort(i)}>
 									{item}
 								</li>
 							)

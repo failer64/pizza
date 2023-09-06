@@ -1,15 +1,17 @@
 import { FC } from "react"
 import CategoriesPlaceholder from "./CategoriesPlaceholder"
-import { useAppSelector } from "../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { changeCategory } from "../../app/mainPageSlice"
+
 
 type CategoriesType = {
-	activeIndex: number
-	setActiceIndex: (index: number) => void
+	activeCategory: number
 }
 
-const Categories: FC<CategoriesType> = ({ activeIndex, setActiceIndex }) => {
+const Categories: FC<CategoriesType> = ({ activeCategory }) => {
 
 	const categories = useAppSelector(state => state.mainPage.categories);
+	const dispatch = useAppDispatch();
 
 	return (
 		<div className="categories">
@@ -19,8 +21,8 @@ const Categories: FC<CategoriesType> = ({ activeIndex, setActiceIndex }) => {
 						? [...new Array(5)].map((_, i) => <CategoriesPlaceholder key={i} />)
 						: categories.map((item, i) =>
 							<li key={i}
-								className={activeIndex === i ? 'active' : ''}
-								onClick={() => setActiceIndex(i)}
+								className={activeCategory === i ? 'active' : ''}
+								onClick={() => dispatch(changeCategory(i))}
 							>
 								{item}
 							</li>
