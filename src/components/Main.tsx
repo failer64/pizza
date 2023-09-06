@@ -1,8 +1,8 @@
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Categories from "./PizzaBlock/Categories";
 import Pizza from "./PizzaBlock";
 import Sort from "./Sort";
-import MyLoader from "./PizzaBlock/PizzaBlockPlaceholder";
+import PizzaBlockPlaceholder from "./PizzaBlock/PizzaBlockPlaceholder";
 
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { fetchCategories, fetchItems } from "../app/mainPageSlice";
@@ -19,25 +19,19 @@ export type PizzasType = {
 	rating: number
 }
 
-const Main: FC = () => {
+const Main = () => {
 
 	const [activeIndex, setActiceIndex] = useState(0);
 	const [activeSort, setActiveSort] = useState('популярности');
 
-	const items = useAppSelector(state => state.mainPage.items);
-
-
-
-	const dispatch = useAppDispatch();
-
 	const sortsArr = ['популярности', 'цене', 'алфавиту'];
 
+	const items = useAppSelector(state => state.mainPage.items);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-
 		dispatch(fetchItems());
 		dispatch(fetchCategories());
-
 	}, [])
 
 
@@ -70,7 +64,9 @@ const Main: FC = () => {
 							.map(item =>
 								<Pizza key={item.id} {...item} />
 							)
-						: [...new Array(6)].map((_, index) => <MyLoader key={index} />)
+						: [...new Array(6)].map((_, index) =>
+							<PizzaBlockPlaceholder key={index} />
+						)
 				}
 			</div>
 		</div>

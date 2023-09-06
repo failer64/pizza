@@ -1,7 +1,7 @@
-import { FC } from "react";
 import cart from '/src/assets/images/cart.svg'
 import trash from '/src/assets/images/trash.svg'
 import arrow from '/src/assets/images/grey-arrow-left.svg'
+import emptyCart from '/src/assets/images/empty-cart.png'
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
@@ -9,16 +9,14 @@ import { ItemsType, clearItems } from "../app/cartSlice";
 import CartEmpty from "./CartEmpty";
 
 
-const Cart: FC = () => {
+const Cart = () => {
 
 	const dispatch = useAppDispatch();
-
 	const items = useAppSelector(state => state.cartItems.items);
 
-	//const uniqeItems = items.filter((n, i, a) => i === a.findIndex(m => m === n));
-
 	const uniqeItems = items.reduce((res, cur) =>
-		res.find((find) => JSON.stringify(find) === JSON.stringify(cur))
+		res.find((find) =>
+			find.title === cur.title && find.activeSize === cur.activeSize && find.activeType === cur.activeType)
 			? res
 			: [...res, cur]
 		, [] as ItemsType[])
@@ -31,7 +29,7 @@ const Cart: FC = () => {
 		dispatch(clearItems()); // Очистка корзины
 	}
 
-	if (!items.length) return <CartEmpty />; // Если пусто то редирект в пустую корзину
+	if (!items.length) return <CartEmpty image={emptyCart} />; // Если пусто то редирект в пустую корзину
 
 
 	return (
@@ -50,7 +48,7 @@ const Cart: FC = () => {
 				<div>
 					{
 						uniqeItems.map((item, i) =>
-							<CartItem key={i} item={item} />
+							<CartItem key={i} {...item} />
 						)
 					}
 				</div>

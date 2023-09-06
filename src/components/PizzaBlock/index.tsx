@@ -6,6 +6,7 @@ import { PizzasType } from "../Main"
 
 const Pizza: FC<PizzasType> = ({ title, price, types, sizes, imageUrl }) => {
 
+
 	const pizzasArray = useAppSelector(state => state.cartItems.items)
 	const pizzasCount = pizzasArray.filter(el => el.title === title).length;
 

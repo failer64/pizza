@@ -1,7 +1,7 @@
 import ContentLoader from "react-content-loader"
 
 
-const MyLoader = () => (
+const PizzaBlockPlaceholder = () => (
 	<ContentLoader
 		speed={2}
 		width={290}
@@ -18,5 +18,5 @@ const MyLoader = () => (
 	</ContentLoader>
 )
 
-export default MyLoader
+export default PizzaBlockPlaceholder
 

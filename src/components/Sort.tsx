@@ -11,8 +11,6 @@ const Sort: FC<SortType> = ({ sortsArr, activeSort, setActiveSort }) => {
 
 	const [menuOpen, setMenuOpen] = useState(false);
 
-
-
 	const onSetActiveSort = (sort: string) => {
 		setActiveSort(sort);
 		setMenuOpen(false);
@@ -66,7 +64,8 @@ const Sort: FC<SortType> = ({ sortsArr, activeSort, setActiveSort }) => {
 									className={item === activeSort ? 'active' : ''}
 									onClick={() => onSetActiveSort(item)}>
 									{item}
-								</li>)
+								</li>
+							)
 						}
 					</ul>
 				</div>

@@ -1,10 +1,9 @@
-import { FC } from 'react'
 import pizzaLogo from '../pizza-logo.svg'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from '../app/hooks'
 
 
-const Header: FC = () => {
+const Header = () => {
 
 	const items = useAppSelector(state => state.cartItems.items);
 

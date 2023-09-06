@@ -7,8 +7,6 @@ import ErrorPage from './components/404'
 
 
 const App = () => {
-
-
 	return (
 		< >
 			<Header />
